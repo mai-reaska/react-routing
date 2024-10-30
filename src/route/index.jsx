@@ -1,42 +1,54 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { useState } from "react"
-import Home from "../page/Home.jsx"
-import Error from "../component/Error.jsx"
-import ShareLayout from "../layout/ShareLayout.jsx"
-import Team from "../component/Team.jsx"
-import About from "../page/About.jsx"
-import Form from "../component/Form.jsx"
-import StudentList from "../page/StudentList.jsx"
-import Product from "../product/Product.jsx"
-import ProductDetail from "../product/ProductDetail.jsx"
-import Login from "../page/Login.jsx"
-import Dashboard from "../page/Dashboard.jsx"
-import ProtectRoute from "../component/ProtectRoute.jsx"
-function route() {
-    const [user, setUser] = useState(null)
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom"
+import "../server"
+import Layout from "../layout/Layout"
+import Home from "../views/Home"
+import About from "../views/About"
+import NotFound from "../views/NotFound"
+import Vans from "../page/Vans/VanList"
+import VanDetail from "../page/Vans/VanDetail"
+import Dashboard from "../page/Host/Dashboard"
+import Income from "../page/Host/Incom"
+import Review from "../page/Host/Reviews"
+import HostLayout from "../layout/HostLayout"
+import HostVans from "../page/Host/HostVans"
+import HostVansDetail from "../page/Host/HostVansDetail"
+import HostVansInfo from "../page/Host/HostVansInfo"
+import HostsVansPhoto from "../page/Host/HostVansPhoto"
+import HostsVansPrice from "../page/Host/HostVansPrice"
+function Routing() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<ShareLayout />}>
+                <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
-                    <Route path="*" element={<Error />} />
-                    <Route path="/team" element={<Team />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/register" element={<Form />} />
-                    <Route path="/student" element={<StudentList />} />
-                    <Route path="/product" element={<Product />} />
-                    <Route path="/product/:productId" element={<ProductDetail />} />
-                    <Route path="/login" element={<Login setUser={setUser} />} />
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <ProtectRoute user={user}>
-                                <Dashboard user={user} />
-                            </ProtectRoute>}
-                    />
+
+                    <Route path="/vans">
+                        <Route index element={<Vans />} />
+                        <Route path="/vans/:id" element={<VanDetail />} />
+                    </Route>
+
+                    <Route path="*" element={<NotFound />} />
+
+                    <Route path="host" element={<HostLayout />}>
+                        <Route index element={<Dashboard />} />
+                        <Route path="income" element={<Income />} />
+                        <Route path="reviews" element={<Review />} />
+                        {/*<Route path="vans" element={<Outlet />}>*/}
+                        {/*    <Route index element={<HostVans />} />*/}
+                        {/*    <Route path=":id" element={<HostVansDetail />} />*/}
+                        {/*</Route>*/}
+                        <Route path="vans" element={<HostVans />} />
+                        <Route path="vans/:id" element={<HostVansDetail />}>
+                            <Route index element={<HostVansInfo />} />
+                            <Route path="pricing" element={<HostsVansPrice />} />
+                            <Route path="photos" element={<HostsVansPhoto />} />
+                        </Route>
+                    </Route>
+
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </BrowserRouter >
     )
 }
-export default route
+export default Routing

@@ -1,8 +1,8 @@
-import Page from "./route/index.jsx"
+import Routing from "./route/index"
 function App() {
   return (
     <>
-      <Page />
+      <Routing />
     </>
   )
 }
